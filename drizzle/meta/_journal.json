@@ -1,0 +1,62 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1721062005561,
+      "tag": "0000_lyrical_sphinx",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1721079672030,
+      "tag": "0001_marvelous_skaar",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1721177629812,
+      "tag": "0002_jittery_black_tom",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1721229155313,
+      "tag": "0003_puzzling_caretaker",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1721731890799,
+      "tag": "0004_superb_master_chief",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1721734676285,
+      "tag": "0005_certain_eternity",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1721735635617,
+      "tag": "0006_deep_maginty",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1721931756229,
+      "tag": "0007_volatile_skin",
+      "breakpoints": true
+    }
+  ]
+}
