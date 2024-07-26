@@ -3,7 +3,8 @@ import { type TRegisterUserSchema } from "@/app/auth/register/page";
 import { database } from "@/database/databaseConnection";
 import { users } from "@/database/schema";
 import { v4 as uuid } from "uuid";
-import { hash } from "argon2";
+// import { hash } from "argon2";
+import { hash } from "bcrypt";
 
 export async function RegisterUser(formData: TRegisterUserSchema) {
   try {
@@ -12,7 +13,7 @@ export async function RegisterUser(formData: TRegisterUserSchema) {
       email: formData.email,
       first_name: formData.first_name,
       last_name: formData.last_name,
-      password: await hash(formData.password),
+      password: await hash(formData.password, 12),
     });
   } catch (e) {
     throw new Error(

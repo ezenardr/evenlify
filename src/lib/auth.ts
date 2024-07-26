@@ -4,7 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { database } from "@/database/databaseConnection";
 import { users } from "@/database/schema";
 import { eq } from "drizzle-orm";
-import { verify } from "argon2";
+// import { verify } from "argon2";
+import { compare } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -24,9 +25,9 @@ export const authOptions: NextAuthOptions = {
             "There is no user with this email. Please Create an account",
           );
         try {
-          const verifyPassword = await verify(
-            user[0].password,
+          const verifyPassword = await compare(
             credentials.password,
+            user[0].password,
           );
           if (verifyPassword) {
             const { password, ...userWithoutPassword } = user[0];
