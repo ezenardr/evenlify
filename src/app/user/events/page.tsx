@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import login from "@/assets/images/login.jpg";
+import login from "@/assets/images/login.webp";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

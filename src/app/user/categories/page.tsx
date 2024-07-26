@@ -28,7 +28,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Image from "next/image";
-import login from "@/assets/images/login.jpg";
+import login from "@/assets/images/login.webp";
 import { Link } from "next-view-transitions";
 import { type Metadata } from "next";
 import { database } from "@/database/databaseConnection";
