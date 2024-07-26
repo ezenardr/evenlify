@@ -20,7 +20,7 @@ const config = {
     },
     extend: {
       backgroundImage: {
-        hero: "url('/images/hero-bg.png')",
+        hero: "url('/images/hero-bg.webp')",
         gradient: "url('/images/gradient.svg')",
       },
       colors: {

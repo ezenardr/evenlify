@@ -1,4 +1,4 @@
-import login from "@/assets/images/login.jpg";
+import login from "@/assets/images/login.webp";
 import Image from "next/image";
 import React from "react";
 

@@ -4,7 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { database } from "@/database/databaseConnection";
 import { users } from "@/database/schema";
 import { eq } from "drizzle-orm";
-// import { verify } from "argon2";
 import { compare } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
