@@ -15,10 +15,10 @@ function WebsiteNavigation() {
         "flex py-8 absolute top-0 justify-between items-center w-screen px-8 lg:px-0 lg:w-[1100px] mx-auto"
       }
     >
-      <div className={"flex gap-2 items-center"}>
+      <Link href={"/"} className={"flex gap-2 items-center"}>
         <Image src={Logo} alt={"logo"} />
         <span className={"text-white font-bold text-2xl"}>Evenlify</span>
-      </div>
+      </Link>
       <Menu
         color={"#fff"}
         className={"lg:hidden cursor-pointer"}
@@ -36,7 +36,7 @@ function WebsiteNavigation() {
         />
         <ul className={"flex flex-col items-center text-white gap-12"}>
           <li>
-            <Link href={"/"}>Evénements</Link>
+            <Link href={"/events"}>Evénements</Link>
           </li>
           <li>
             <Link href={"/"}>Contacts</Link>
@@ -69,7 +69,7 @@ function WebsiteNavigation() {
       <nav className={"hidden lg:block"}>
         <ul className={"lg:flex items-center text-white gap-12"}>
           <li>
-            <Link href={"/"}>Evénements</Link>
+            <Link href={"/events"}>Evénements</Link>
           </li>
           <li>
             <Link href={"/"}>Contacts</Link>

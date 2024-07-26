@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { CircleAlert, File, PlusCircle, SquarePen, Trash } from "lucide-react";
+import { CircleAlert, PlusCircle, SquarePen, Trash } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Image from "next/image";
-import login from "@/assets/images/login.jpg";
+import login from "@/assets/images/login.webp";
 import { Link } from "next-view-transitions";
 import { type Metadata } from "next";
 import { database } from "@/database/databaseConnection";
@@ -47,12 +47,12 @@ async function AdminCategories() {
       <Tabs defaultValue="all">
         <div className="flex items-center">
           <div className="ml-auto flex items-center gap-2">
-            <Button size="sm" variant="outline" className="h-7 gap-1">
-              <File className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Export
-              </span>
-            </Button>
+            {/*<Button size="sm" variant="outline" className="h-7 gap-1">*/}
+            {/*  <File className="h-3.5 w-3.5" />*/}
+            {/*  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">*/}
+            {/*    Export*/}
+            {/*  </span>*/}
+            {/*</Button>*/}
             <Link href={"/admin/categories/create"}>
               <Button size="sm" className="h-7 gap-1">
                 <PlusCircle className="h-3.5 w-3.5" />
@@ -87,9 +87,6 @@ async function AdminCategories() {
                       </TableHead>
                       <TableHead>Name</TableHead>
                       <TableHead>Description</TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Created at
-                      </TableHead>
                       <TableHead className="sr-only">Edit</TableHead>
                       <TableHead>
                         <span className="sr-only">Actions</span>
@@ -127,9 +124,6 @@ async function AdminCategories() {
                               {title}
                             </TableCell>
                             <TableCell>{description}</TableCell>
-                            <TableCell className="hidden md:table-cell">
-                              2023-10-18 03:21 PM
-                            </TableCell>
                             <TableCell className="">
                               <Link href={`/admin/categories/${category_id}`}>
                                 <SquarePen

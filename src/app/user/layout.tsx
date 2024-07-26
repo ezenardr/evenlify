@@ -19,7 +19,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -60,7 +65,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
-              <span className="">Acme Inc</span>
+              <span className="">Evenlify</span>
             </Link>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
@@ -71,7 +76,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
                 href={"/user/dashboard"}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-primary ${pathname === "/" ? "bg-muted text-primary" : "text-muted-foreground"}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-primary ${pathname === "/user/dashboard" ? "bg-muted text-primary" : "text-muted-foreground"}`}
               >
                 <Home className="h-4 w-4" />
                 Dashboard
@@ -133,31 +138,32 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Package2 className="h-6 w-6" />
-                  <span className="sr-only">Acme Inc</span>
+                  <span className="sr-only">Evenlify</span>
                 </Link>
                 <Link
-                  href="/"
+                  href={"/user/dashboard"}
                   className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2
-                   ${pathname === "/" ? "bg-muted text-primary" : "text-muted-foreground"} hover:text-foreground`}
+                   ${pathname === "/user/dashboard" ? "bg-muted text-primary" : "text-muted-foreground"} hover:text-foreground`}
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
                 {navigationLinks.map(
                   ({ name, path, icon, notifications }, key) => (
-                    <Link
-                      key={key}
-                      href={path}
-                      className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 ${isPathActive(path) ? "bg-muted text-primary" : "text-muted-foreground"}  hover:text-foreground`}
-                    >
-                      {icon}
-                      {name}
-                      {notifications && (
-                        <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                          6
-                        </Badge>
-                      )}
-                    </Link>
+                    <SheetClose asChild key={key}>
+                      <Link
+                        href={path}
+                        className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 ${isPathActive(path) ? "bg-muted text-primary" : "text-muted-foreground"}  hover:text-foreground`}
+                      >
+                        {icon}
+                        {name}
+                        {notifications && (
+                          <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                            6
+                          </Badge>
+                        )}
+                      </Link>
+                    </SheetClose>
                   ),
                 )}
               </nav>

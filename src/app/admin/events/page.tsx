@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import login from "@/assets/images/login.jpg";
+import login from "@/assets/images/login.webp";
 import { Link } from "next-view-transitions";
 import type { Metadata } from "next";
 import { database } from "@/database/databaseConnection";

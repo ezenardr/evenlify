@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "next-view-transitions";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCategory } from "@/actions/CategoriesActions";
 import { toast } from "sonner";
+import Loader from "@/components/Loader";
 
 export const AddCategorySchema = z.object({
   title: z.string().min(8, { message: "Insérez 8 caractères minimum" }),
@@ -36,17 +37,21 @@ function CreateCategoryForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<TAddCategorySchema>({ resolver: zodResolver(AddCategorySchema) });
+  const [isLoading, setIsLoading] = useState(false);
 
   async function submitHandler(data: TAddCategorySchema) {
+    setIsLoading(true);
     CreateCategory(data)
       .then((res) =>
         window.location.replace(`/admin/categories/${res?.replace(/"/g, "")}`),
       )
-      .catch((e) => toast.error(`Une erreur est survenue: ${e.message}`));
+      .catch((e) => toast.error(`Une erreur est survenue: ${e.message}`))
+      .finally(() => setIsLoading(false));
   }
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+      {isLoading && <Loader />}
       <form
         onSubmit={handleSubmit(submitHandler)}
         className="mx-auto grid w-full flex-1 auto-rows-max gap-4"

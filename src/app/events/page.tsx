@@ -1,11 +1,9 @@
-import { Link } from "next-view-transitions";
-import Image from "next/image";
-import Event from "@/assets/images/event.png";
-import avatars from "@/assets/images/avatars.svg";
+import React from "react";
 import HeroSection from "@/components/HeroSection";
+import Event from "@/assets/images/event.png";
 import EventSimpleCard from "@/components/EventSimpleCard";
 
-export default function Home() {
+function Events() {
   const events = [
     {
       image: Event,
@@ -33,17 +31,14 @@ export default function Home() {
     },
   ];
   return (
-    <main className={"max-w-[1440px] mx-auto"}>
-      {/*hero section*/}
+    <main>
       <HeroSection
-        title={"Réservez Maintenant et Vivez l'Instant"}
+        title={"Découvrez et Réservez Vos Prochains Événements Favoris"}
         description={
-          "Evenlify vous permet de trouver et de réserver facilement vosévénements préférés! Ne manquez jamais une occasion de vivre des expériences extraordinaires."
+          "Que vous soyez amateur de musique, passionné de sport, ou à la recherche de nouvelles expériences culturelles, nous avons quelque chose pour vous."
         }
-        cta={true}
       />
 
-      {/*  Upcoming Events*/}
       <section
         className={
           "py-24 px-8 lg:px-0 flex items-center flex-col gap-12 max-w-[1086px] mx-auto"
@@ -86,40 +81,9 @@ export default function Home() {
             );
           })}
         </ul>
-        <Link
-          href={"/events"}
-          className={
-            "bg-transparent border hover:bg-[#3D37F1] hover:text-white hover:border-[#3D37F1] transition-all border-[#3D37F1] rounded-[50px] px-8 py-[10px] text-[#3D37F1] text-[18px] font-bold"
-          }
-        >
-          Voir Plus
-        </Link>
-      </section>
-
-      {/*  create events*/}
-      <section
-        className={
-          "flex flex-col px-8 lg:px-0 lg:flex-row items-center justify-center bg-[#EEE1FF]"
-        }
-      >
-        <div>
-          <Image src={avatars} alt={"create event avatar"} className={"p-12"} />
-        </div>
-        <div className={"text-center"}>
-          <h2 className={"text-[34px] font-bold pb-3"}>
-            Poster vos Evénements
-          </h2>
-          <p className={"text-[18px] text-[#272727] pb-6"}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-          </p>
-          <Link
-            href={"/user/events"}
-            className={"btn-primary hover:text-black"}
-          >
-            Créer un Evénement
-          </Link>
-        </div>
       </section>
     </main>
   );
 }
+
+export default Events;
