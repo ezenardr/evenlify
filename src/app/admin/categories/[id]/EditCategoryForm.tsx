@@ -19,10 +19,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Loader from "@/components/Loader";
 import { supabaseClient } from "@/lib/supabase";
-import {
-  DeleteCategoryUrl,
-  UploadCategoryImageUrl,
-} from "@/actions/ImagesActions";
+import { DeleteUrl, UploadImageUrl } from "@/actions/ImagesActions";
 import { toast } from "sonner";
 import NextImage from "next/image";
 import {
@@ -67,10 +64,11 @@ function EditCategoryForm({
           .createSignedUrl(data.path, 126227808)
           .then(({ data }) => {
             if (data) {
-              UploadCategoryImageUrl(
+              UploadImageUrl(
                 data.signedUrl,
                 category.category_id,
                 imageFile.name,
+                "categories",
               ).catch((e) =>
                 toast.error(`Une erreur est survenue : ${e.message}`),
               );
@@ -203,10 +201,11 @@ function EditCategoryForm({
                       <div
                         onClick={() => {
                           setIsLoading(true);
-                          DeleteCategoryUrl(
+                          DeleteUrl(
                             categorieImages[0].image_id,
                             categorieImages[0].image_name,
                             categorieImages[0].field_id,
+                            "categories",
                           ).then(() => setIsLoading(false));
                         }}
                         className={
@@ -249,10 +248,11 @@ function EditCategoryForm({
                         <div
                           onClick={() => {
                             setIsLoading(true);
-                            DeleteCategoryUrl(
+                            DeleteUrl(
                               categorieImages[1].image_id,
                               categorieImages[1].image_name,
                               categorieImages[1].field_id,
+                              "categories",
                             ).then(() => setIsLoading(false));
                           }}
                           className={
@@ -275,10 +275,11 @@ function EditCategoryForm({
                         <div
                           onClick={() => {
                             setIsLoading(true);
-                            DeleteCategoryUrl(
+                            DeleteUrl(
                               categorieImages[2].image_id,
                               categorieImages[2].image_name,
                               categorieImages[2].field_id,
+                              "categories",
                             ).then(() => setIsLoading(false));
                           }}
                           className={
@@ -301,10 +302,11 @@ function EditCategoryForm({
                         <div
                           onClick={() => {
                             setIsLoading(true);
-                            DeleteCategoryUrl(
+                            DeleteUrl(
                               categorieImages[3].image_id,
                               categorieImages[3].image_name,
                               categorieImages[3].field_id,
+                              "categories",
                             ).then(() => setIsLoading(false));
                           }}
                           className={

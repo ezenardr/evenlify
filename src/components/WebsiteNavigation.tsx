@@ -6,7 +6,7 @@ import { Link } from "next-view-transitions";
 import { useSession } from "next-auth/react";
 import { Menu, X } from "lucide-react";
 
-function WebsiteNavigation() {
+function WebsiteNavigation({ black }: { black?: boolean }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = React.useState(false);
   return (
@@ -57,7 +57,7 @@ function WebsiteNavigation() {
           {session && (
             <li>
               <Link
-                href={`${session.user.role}/dashboard`}
+                href={`/${session.user.role}/dashboard`}
                 className={"btn-primary"}
               >
                 Dashboard
@@ -67,7 +67,9 @@ function WebsiteNavigation() {
         </ul>
       </nav>
       <nav className={"hidden lg:block"}>
-        <ul className={"lg:flex items-center text-white gap-12"}>
+        <ul
+          className={`lg:flex items-center ${black ? "text-black" : "text-white"} gap-12`}
+        >
           <li>
             <Link href={"/events"}>Evénements</Link>
           </li>
@@ -90,7 +92,7 @@ function WebsiteNavigation() {
           {session && (
             <li>
               <Link
-                href={`${session.user.role}/dashboard`}
+                href={`/${session.user.role}/dashboard`}
                 className={"btn-primary"}
               >
                 Dashboard

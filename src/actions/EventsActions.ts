@@ -45,6 +45,7 @@ export async function UpdateEvent(data: TAddEventSchema, event_id: string) {
       normal_price: data.normal_price,
       vip_ticket_amount: data.vip_ticket_amount,
       vip_price: data.vip_price,
+      status: data.status,
     })
     .where(eq(events.event_id, event_id));
   revalidatePath(`/admin/events/${event_id}`);

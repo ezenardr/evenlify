@@ -1,37 +1,39 @@
 import { Link } from "next-view-transitions";
 import Image from "next/image";
-import Event from "@/assets/images/event.png";
 import avatars from "@/assets/images/avatars.svg";
 import HeroSection from "@/components/HeroSection";
 import EventSimpleCard from "@/components/EventSimpleCard";
+import { database } from "@/database/databaseConnection";
+import { events } from "@/database/schema";
 
-export default function Home() {
-  const events = [
-    {
-      image: Event,
-      title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-      description:
-        "We’ll get you directly seated and inside for you to enjoy the show.",
-      day: "14",
-      month: "APR",
-    },
-    {
-      image: Event,
-      title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-      description:
-        "We’ll get you directly seated and inside for you to enjoy the show.",
-      day: "14",
-      month: "APR",
-    },
-    {
-      image: Event,
-      title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-      description:
-        "We’ll get you directly seated and inside for you to enjoy the show.",
-      day: "14",
-      month: "APR",
-    },
-  ];
+export default async function Home() {
+  // const events = [
+  //   {
+  //     image: Event,
+  //     title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
+  //     description:
+  //       "We’ll get you directly seated and inside for you to enjoy the show.",
+  //     day: "14",
+  //     month: "APR",
+  //   },
+  //   {
+  //     image: Event,
+  //     title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
+  //     description:
+  //       "We’ll get you directly seated and inside for you to enjoy the show.",
+  //     day: "14",
+  //     month: "APR",
+  //   },
+  //   {
+  //     image: Event,
+  //     title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
+  //     description:
+  //       "We’ll get you directly seated and inside for you to enjoy the show.",
+  //     day: "14",
+  //     month: "APR",
+  //   },
+  // ];
+  const eventsList = await database.select().from(events);
   return (
     <main className={"max-w-[1440px] mx-auto"}>
       {/*hero section*/}
@@ -72,14 +74,13 @@ export default function Home() {
           </div>
         </div>
         <ul className={"grid w-full  gap-8 lg:gap-0 lg:grid-cols-3"}>
-          {events.map(({ image, title, description, month, day }, index) => {
+          {eventsList.map(({ title, description, date, event_id }, index) => {
             return (
               <li key={index}>
                 <EventSimpleCard
-                  image={image}
+                  event_id={event_id}
                   title={title}
-                  month={month}
-                  day={day}
+                  date={date}
                   description={description}
                 />
               </li>

@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "next-view-transitions";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, CircleX, Upload } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -24,7 +24,7 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Category, type Event } from "@/database/schema";
+import { type Category, type Event, Image } from "@/database/schema";
 import {
   Form,
   FormControl,
@@ -44,6 +44,10 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "@/components/ui/calendar";
 import { UpdateEvent } from "@/actions/EventsActions";
 import Loader from "@/components/Loader";
+import { supabaseClient } from "@/lib/supabase";
+import { DeleteUrl, UploadImageUrl } from "@/actions/ImagesActions";
+import { toast } from "sonner";
+import NextImage from "next/image";
 
 const AddEventSchema = z.object({
   title: z.string().min(8, { message: "Insérez 8 caractères minimum" }),
@@ -62,9 +66,11 @@ export type TAddEventSchema = z.infer<typeof AddEventSchema>;
 function CreateEventForm({
   categoryList,
   event,
+  eventImages,
 }: {
   categoryList: Category[];
   event: Event;
+  eventImages: Image[];
 }) {
   const form = useForm<TAddEventSchema>({
     resolver: zodResolver(AddEventSchema),
@@ -82,6 +88,36 @@ function CreateEventForm({
     },
   });
   const [isLoading, setIsLoading] = React.useState(false);
+
+  async function uploadImage(file: File) {
+    setIsLoading(true);
+    const imageFile = file;
+    try {
+      const { data } = await supabaseClient.storage
+        .from("images")
+        .upload(`events/${event.event_id}/${imageFile.name}`, imageFile);
+      if (data) {
+        supabaseClient.storage
+          .from("images")
+          .createSignedUrl(data.path, 126227808)
+          .then(({ data }) => {
+            if (data) {
+              UploadImageUrl(
+                data.signedUrl,
+                event.event_id,
+                imageFile.name,
+                "events",
+              ).catch((e) =>
+                toast.error(`Une erreur est survenue : ${e.message}`),
+              );
+            }
+          });
+      }
+    } catch (e: any) {
+      toast.error(`Une erreur est survenue : ${e.message}`);
+    }
+    setIsLoading(false);
+  }
 
   async function submitHandler(data: TAddEventSchema) {
     setIsLoading(true);
@@ -375,6 +411,170 @@ function CreateEventForm({
                   </div>
                 </CardContent>
               </Card>
+              <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+                <Card className="overflow-hidden">
+                  <CardHeader>
+                    <CardTitle>Images de catégories</CardTitle>
+                    <CardDescription>
+                      Chaque image reflète l&apos;ambiance et l&apos;énergie de
+                      vos événements.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-2">
+                      {eventImages.length > 0 ? (
+                        <div className={"relative"}>
+                          <NextImage
+                            alt="Product image"
+                            className="aspect-square w-full rounded-md object-cover"
+                            height="300"
+                            src={eventImages[0].image_url}
+                            width="300"
+                          />
+                          <div
+                            onClick={() => {
+                              setIsLoading(true);
+                              DeleteUrl(
+                                eventImages[0].image_id,
+                                eventImages[0].image_name,
+                                eventImages[0].field_id,
+                                "events",
+                              ).then(() => setIsLoading(false));
+                            }}
+                            className={
+                              "absolute -top-2 -right-2 bg-red-600 rounded-full p-1 hover:scale-110 transition-all cursor-pointer"
+                            }
+                          >
+                            <CircleX color={"#fff"} />
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="relative flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
+                          <Upload className="h-4 w-4 text-muted-foreground" />
+                          <span className="sr-only">Upload</span>
+                          <input
+                            type={"file"}
+                            accept={"image/*"}
+                            className={
+                              "absolute opacity-0 top-0 left-0 w-full h-full cursor-pointer"
+                            }
+                            onChange={(e) => {
+                              if (e.target.files) {
+                                uploadImage(e.target.files[0]).then(() =>
+                                  toast.success("Réussie"),
+                                );
+                              }
+                            }}
+                          />
+                        </div>
+                      )}
+                      <div className="grid grid-cols-3 gap-2">
+                        {eventImages[1] && (
+                          <div className={"relative"}>
+                            <NextImage
+                              alt="Product image"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height="84"
+                              src={eventImages[1].image_url}
+                              width="84"
+                            />
+                            <div
+                              onClick={() => {
+                                setIsLoading(true);
+                                DeleteUrl(
+                                  eventImages[1].image_id,
+                                  eventImages[1].image_name,
+                                  eventImages[1].field_id,
+                                  "events",
+                                ).then(() => setIsLoading(false));
+                              }}
+                              className={
+                                "absolute -top-2 -right-2 bg-red-600 rounded-full p-1 hover:scale-110 transition-all cursor-pointer"
+                              }
+                            >
+                              <CircleX color={"#fff"} />
+                            </div>
+                          </div>
+                        )}
+                        {eventImages[2] && (
+                          <div className={"relative"}>
+                            <NextImage
+                              alt="Product image"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height="84"
+                              src={eventImages[2].image_url}
+                              width="84"
+                            />
+                            <div
+                              onClick={() => {
+                                setIsLoading(true);
+                                DeleteUrl(
+                                  eventImages[2].image_id,
+                                  eventImages[2].image_name,
+                                  eventImages[2].field_id,
+                                  "events",
+                                ).then(() => setIsLoading(false));
+                              }}
+                              className={
+                                "absolute -top-2 -right-2 bg-red-600 rounded-full p-1 hover:scale-110 transition-all cursor-pointer"
+                              }
+                            >
+                              <CircleX color={"#fff"} />
+                            </div>
+                          </div>
+                        )}
+                        {eventImages[3] && (
+                          <div className={"relative"}>
+                            <NextImage
+                              alt="Product image"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height="84"
+                              src={eventImages[3].image_url}
+                              width="84"
+                            />
+                            <div
+                              onClick={() => {
+                                setIsLoading(true);
+                                DeleteUrl(
+                                  eventImages[3].image_id,
+                                  eventImages[3].image_name,
+                                  eventImages[3].field_id,
+                                  "events",
+                                ).then(() => setIsLoading(false));
+                              }}
+                              className={
+                                "absolute -top-2 -right-2 bg-red-600 rounded-full p-1 hover:scale-110 transition-all cursor-pointer"
+                              }
+                            >
+                              <CircleX color={"#fff"} />
+                            </div>
+                          </div>
+                        )}
+                        {eventImages.length < 4 && eventImages.length > 0 && (
+                          <div className="relative flex aspect-square w-full items-center justify-center rounded-md border border-dashed cursor-pointer">
+                            <Upload className="h-4 w-4 text-muted-foreground" />
+                            <span className="sr-only">Upload</span>
+                            <input
+                              type={"file"}
+                              accept={"image/*"}
+                              className={
+                                "absolute opacity-0 top-0 left-0 w-full h-full cursor-pointer"
+                              }
+                              onChange={(e) => {
+                                if (e.target.files) {
+                                  uploadImage(e.target.files[0]).then(() =>
+                                    toast.success("Réussie"),
+                                  );
+                                }
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
               {/*<Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">*/}
               {/*  <CardHeader>*/}
               {/*    <CardTitle>Images</CardTitle>*/}

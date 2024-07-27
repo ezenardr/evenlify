@@ -1,26 +1,55 @@
 import React from "react";
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
+import { database } from "@/database/databaseConnection";
+import { images } from "@/database/schema";
+import { eq } from "drizzle-orm";
+import { Link } from "next-view-transitions";
+import truncateWords from "@/lib/TruncateWord";
 
-function EventSimpleCard({
-  image,
+async function EventSimpleCard({
   title,
-  month,
-  day,
   description,
+  event_id,
+  date,
 }: {
-  image: StaticImageData;
+  event_id: string;
   title: string;
-  month: string;
-  day: string;
   description: string;
+  date: Date;
 }) {
+  const imagesList = await database
+    .select()
+    .from(images)
+    .where(eq(images.field_id, event_id));
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const month = months[date.getMonth()];
+  const day = date.getDate();
   return (
     <div
       className={
         "bg-white rounded-[12px] overflow-hidden w-full lg:w-[343px] shadow-lg"
       }
     >
-      <Image src={image} alt={title} className={"w-full"} />
+      <Image
+        src={imagesList[0].image_url}
+        alt={title}
+        className={"w-full"}
+        width={150}
+        height={150}
+      />
       <div className={"flex gap-4 px-6 pt-4 pb-6"}>
         <div className={"flex flex-col items-center"}>
           <span className={"text-[#3D37F1] text-[12px] font-bold"}>
@@ -28,10 +57,12 @@ function EventSimpleCard({
           </span>
           <span className={"text-black text-[29px] font-bold"}>{day}</span>
         </div>
-        <div className={"flex flex-col gap-2"}>
+        <Link href={`/events/${event_id}`} className={"flex flex-col gap-2"}>
           <h4 className={"text-[16px] font-bold text-black"}>{title}</h4>
-          <p className={"text-[#6a6a6a] text-[14px]"}>{description}</p>
-        </div>
+          <p className={"text-[#6a6a6a] text-[14px]"}>
+            {truncateWords(description)}
+          </p>
+        </Link>
       </div>
     </div>
   );

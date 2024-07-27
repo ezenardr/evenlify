@@ -6,10 +6,11 @@ import { revalidatePath } from "next/cache";
 import { supabaseClient } from "@/lib/supabase";
 import { eq } from "drizzle-orm";
 
-export async function UploadCategoryImageUrl(
+export async function UploadImageUrl(
   image_url: string,
   field_id: string,
   image_name: string,
+  field: string,
 ) {
   await database.insert(images).values({
     image_id: uuid(),
@@ -17,27 +18,28 @@ export async function UploadCategoryImageUrl(
     image_url,
     image_name,
   });
-  revalidatePath(`/admin/categories/${field_id}`);
+  revalidatePath(`/admin/${field}/${field_id}`);
 }
 
-export async function DeleteCategoryUrl(
+export async function DeleteUrl(
   image_id: string,
   image_name: string,
   field_id: string,
+  field: string,
 ) {
   await supabaseClient.storage
     .from("images")
-    .remove([`categories/${field_id}/${image_name}`]);
+    .remove([`${field}/${field_id}/${image_name}`]);
   await database.delete(images).where(eq(images.image_id, image_id));
-  revalidatePath(`/admin/categories/${field_id}`);
+  revalidatePath(`/admin/${field}/${field_id}`);
 }
 
-export async function DeleteCategoryImages(field_id: string) {
+export async function DeleteImages(field_id: string, field: string) {
   const list = await supabaseClient.storage
     .from("images")
-    .list(`categories/${field_id}`);
+    .list(`${field}/${field_id}`);
   const filesToRemove = list.data?.map(
-    (file) => `categories/${field_id}/${file.name}`,
+    (file) => `${field}/${field_id}/${file.name}`,
   );
   filesToRemove &&
     (await supabaseClient.storage.from("images").remove(filesToRemove));

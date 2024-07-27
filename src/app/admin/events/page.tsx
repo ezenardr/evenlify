@@ -24,7 +24,7 @@ import login from "@/assets/images/login.webp";
 import { Link } from "next-view-transitions";
 import type { Metadata } from "next";
 import { database } from "@/database/databaseConnection";
-import { events } from "@/database/schema";
+import { events, images } from "@/database/schema";
 
 export const metadata: Metadata = {
   title: "Événements - Evenlify",
@@ -32,6 +32,7 @@ export const metadata: Metadata = {
 
 async function AdminEvents() {
   const eventsList = await database.select().from(events);
+  const eventsImages = await database.select().from(images);
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <Tabs defaultValue="all">
@@ -93,6 +94,9 @@ async function AdminEvents() {
                 <TableBody>
                   {eventsList.map(
                     ({ event_id, title, status, normal_price }) => {
+                      const image = eventsImages.filter(
+                        (one) => one.field_id === event_id,
+                      );
                       return (
                         <TableRow key={event_id}>
                           <TableCell className="hidden sm:table-cell">
@@ -100,7 +104,7 @@ async function AdminEvents() {
                               alt="Product image"
                               className="aspect-square rounded-md object-cover"
                               height="64"
-                              src={login}
+                              src={image[0].image_url ?? login}
                               width="64"
                             />
                           </TableCell>

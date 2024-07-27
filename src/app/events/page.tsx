@@ -1,35 +1,11 @@
 import React from "react";
 import HeroSection from "@/components/HeroSection";
-import Event from "@/assets/images/event.png";
 import EventSimpleCard from "@/components/EventSimpleCard";
+import { database } from "@/database/databaseConnection";
+import { events } from "@/database/schema";
 
-function Events() {
-  const events = [
-    {
-      image: Event,
-      title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-      description:
-        "We’ll get you directly seated and inside for you to enjoy the show.",
-      day: "14",
-      month: "APR",
-    },
-    {
-      image: Event,
-      title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-      description:
-        "We’ll get you directly seated and inside for you to enjoy the show.",
-      day: "14",
-      month: "APR",
-    },
-    {
-      image: Event,
-      title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-      description:
-        "We’ll get you directly seated and inside for you to enjoy the show.",
-      day: "14",
-      month: "APR",
-    },
-  ];
+async function Events() {
+  const eventsList = await database.select().from(events);
   return (
     <main>
       <HeroSection
@@ -67,15 +43,14 @@ function Events() {
           </div>
         </div>
         <ul className={"grid w-full  gap-8 lg:gap-0 lg:grid-cols-3"}>
-          {events.map(({ image, title, description, month, day }, index) => {
+          {eventsList.map(({ title, description, date, event_id }) => {
             return (
-              <li key={index}>
+              <li key={event_id}>
                 <EventSimpleCard
-                  image={image}
                   title={title}
-                  month={month}
-                  day={day}
                   description={description}
+                  date={date}
+                  event_id={event_id}
                 />
               </li>
             );
