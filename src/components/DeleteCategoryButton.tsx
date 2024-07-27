@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { DeleteCategory } from "@/actions/CategoriesActions";
-import { DeleteCategoryImages } from "@/actions/ImagesActions";
+import { DeleteImages } from "@/actions/ImagesActions";
 import { AlertDialogAction } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 
@@ -10,7 +10,7 @@ function DeleteCategoryButton({ category_id }: { category_id: string }) {
     <AlertDialogAction
       className={"bg-[#d11a2a]"}
       onClick={() => {
-        DeleteCategoryImages(category_id).then(() =>
+        DeleteImages(category_id, "categories").then(() =>
           toast.success("Images Supprimé"),
         );
         DeleteCategory(category_id).then(() =>
