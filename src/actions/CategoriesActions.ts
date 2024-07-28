@@ -21,6 +21,7 @@ export async function CreateCategory(data: TAddCategorySchema) {
         description: data.description,
       })
       .returning({ category_id: categories.category_id });
+    revalidatePath("/admin/categories");
     return JSON.stringify(newCategory[0].category_id);
   }
 }

@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -25,6 +24,18 @@ import { Link } from "next-view-transitions";
 import type { Metadata } from "next";
 import { database } from "@/database/databaseConnection";
 import { events, images } from "@/database/schema";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import DeleteEventButton from "@/components/DeleteEventButton";
+import currencyConverter from "@/lib/currencyConverter";
 
 export const metadata: Metadata = {
   title: "Événements - Evenlify",
@@ -78,22 +89,22 @@ async function AdminEvents() {
                       <span className="sr-only">Image</span>
                     </TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Price</TableHead>
                     <TableHead className="hidden md:table-cell">
-                      Total Sales
+                      Status
                     </TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Created at
+                    <TableHead>Price</TableHead>
+                    <TableHead className="hidden md:table-cell">Date</TableHead>
+                    <TableHead>
+                      <span className="sr-only">Edit</span>
                     </TableHead>
                     <TableHead>
-                      <span className="sr-only">Actions</span>
+                      <span className="sr-only">Delete</span>
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {eventsList.map(
-                    ({ event_id, title, status, normal_price }) => {
+                    ({ event_id, title, date, status, normal_price }) => {
                       const image = eventsImages.filter(
                         (one) => one.field_id === event_id,
                       );
@@ -109,42 +120,53 @@ async function AdminEvents() {
                             />
                           </TableCell>
                           <TableCell className="font-medium">{title}</TableCell>
-                          <TableCell>
+                          <TableCell className="hidden md:table-cell">
                             <Badge variant="outline">{status}</Badge>
                           </TableCell>
-                          <TableCell>${normal_price}</TableCell>
-                          <TableCell className="hidden md:table-cell">
-                            100
+                          <TableCell>
+                            {currencyConverter(normal_price)}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            2023-10-18 03:21 PM
+                            {date.toDateString()}
+                          </TableCell>
+                          <TableCell>
+                            <Link href={`/admin/events/${event_id}`}>
+                              <SquarePen
+                                size={20}
+                                className={"cursor-pointer"}
+                              />
+                            </Link>
                           </TableCell>
                           <TableCell>
                             <div className={"flex gap-2"}>
-                              <Link href={`/admin/events/${event_id}`}>
-                                <SquarePen
-                                  size={20}
-                                  className={"cursor-pointer"}
-                                />
-                              </Link>
-                              <Trash
-                                size={20}
-                                className={"cursor-pointer text-[#d11a2a]"}
-                              />
+                              <AlertDialog>
+                                <AlertDialogTrigger>
+                                  <Trash
+                                    size={20}
+                                    className={"cursor-pointer text-[#d11a2a]"}
+                                  />
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                      Etes vous sur de vouloir supprimer ?
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      Cette action ne peut pas être annulée.
+                                      Cela supprimera définitivement la
+                                      catégories et supprimez les données de nos
+                                      serveurs.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>
+                                      Cancel
+                                    </AlertDialogCancel>
+                                    <DeleteEventButton event_id={event_id} />
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
                             </div>
-                            {/*<DropdownMenu>*/}
-                            {/*  <DropdownMenuTrigger asChild>*/}
-                            {/*    <Button aria-haspopup="true" size="icon" variant="ghost">*/}
-                            {/*      <MoreHorizontal className="h-4 w-4" />*/}
-                            {/*      <span className="sr-only">Toggle menu</span>*/}
-                            {/*    </Button>*/}
-                            {/*  </DropdownMenuTrigger>*/}
-                            {/*  <DropdownMenuContent align="end">*/}
-                            {/*    <DropdownMenuLabel>Actions</DropdownMenuLabel>*/}
-                            {/*    <DropdownMenuItem>Edit</DropdownMenuItem>*/}
-                            {/*    <DropdownMenuItem>Delete</DropdownMenuItem>*/}
-                            {/*  </DropdownMenuContent>*/}
-                            {/*</DropdownMenu>*/}
                           </TableCell>
                         </TableRow>
                       );
@@ -153,11 +175,6 @@ async function AdminEvents() {
                 </TableBody>
               </Table>
             </CardContent>
-            <CardFooter>
-              <div className="text-xs text-muted-foreground">
-                Showing <strong>1-10</strong> of <strong>32</strong> products
-              </div>
-            </CardFooter>
           </Card>
         </TabsContent>
       </Tabs>

@@ -4,7 +4,7 @@ import { type TAddEventSchema } from "@/app/admin/events/create/CreateEventForm"
 import { getServerSession } from "next-auth";
 import auth from "@/lib/auth";
 import { database } from "@/database/databaseConnection";
-import { events } from "@/database/schema";
+import { events, images } from "@/database/schema";
 import { v4 as uuid } from "uuid";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -28,6 +28,7 @@ export async function AddEvents(data: TAddEventSchema) {
         vip_ticket_amount: data.vip_ticket_amount,
       })
       .returning({ event_id: events.event_id });
+    revalidatePath("/admin/events");
     return JSON.stringify(newEvent[0].event_id);
   }
 }
@@ -49,4 +50,10 @@ export async function UpdateEvent(data: TAddEventSchema, event_id: string) {
     })
     .where(eq(events.event_id, event_id));
   revalidatePath(`/admin/events/${event_id}`);
+}
+
+export async function DeleteEvent(event_id: string) {
+  await database.delete(events).where(eq(events.event_id, event_id));
+  await database.delete(images).where(eq(images.field_id, event_id));
+  revalidatePath("/admin/events");
 }

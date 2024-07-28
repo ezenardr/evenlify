@@ -22,10 +22,10 @@ import { toast } from "sonner";
 import Loader from "@/components/Loader";
 
 export const AddCategorySchema = z.object({
-  title: z.string().min(8, { message: "Insérez 8 caractères minimum" }),
+  title: z.string().min(2, { message: "Insérez 2 caractères minimum" }),
   description: z
     .string()
-    .min(8, { message: "Insérez 8 caractères minimum" })
+    .min(2, { message: "Insérez 2 caractères minimum" })
     .max(256, { message: "Limite de caractères atteinte (256)" }),
 });
 
