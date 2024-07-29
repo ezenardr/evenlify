@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import Image from "next/image";
 import currencyConverter from "@/lib/currencyConverter";
 import { Carousel } from "flowbite-react";
+import login from "@/assets/images/login.webp";
 
 async function Event({ params }: { params: { id: string } }) {
   const [singleEvent] = await database
@@ -40,19 +41,25 @@ async function Event({ params }: { params: { id: string } }) {
         </div>
         <div className={"flex flex-col lg:flex-row gap-10"}>
           <div className="lg:hidden h-[300px]">
-            <Carousel leftControl="" rightControl="">
-              {imageList.map(({ image_url, image_name, image_id }) => {
-                return (
-                  <Image
-                    key={image_id}
-                    src={image_url}
-                    alt={image_name}
-                    width={1200}
-                    height={500}
-                  />
-                );
-              })}
-            </Carousel>
+            {imageList.length > 0 ? (
+              <Carousel leftControl="" rightControl="">
+                {imageList.map(({ image_url, image_name, image_id }) => {
+                  return (
+                    <Image
+                      key={image_id}
+                      src={image_url}
+                      alt={image_name}
+                      width={1200}
+                      height={500}
+                    />
+                  );
+                })}
+              </Carousel>
+            ) : (
+              <Carousel leftControl="" rightControl="">
+                <Image src={login} alt={"event"} width={1200} height={500} />
+              </Carousel>
+            )}
           </div>
           <div className={"flex-1 hidden lg:grid grid-cols-3 gap-8"}>
             <div
@@ -60,32 +67,43 @@ async function Event({ params }: { params: { id: string } }) {
                 "bg-[#EAEAEA] col-start-1 col-end-4 overflow-hidden flex items-center justify-center h-[300px] rounded-[1rem] "
               }
             >
-              <Image
-                width={1200}
-                height={667}
-                className={"hover:scale-110 w-full transition-all"}
-                src={imageList[0].image_url}
-                alt={imageList[0].image_name}
-              />
+              {imageList.length > 0 ? (
+                <Image
+                  width={1200}
+                  height={667}
+                  className={"hover:scale-110 w-full transition-all"}
+                  src={imageList[0].image_url}
+                  alt={imageList[0].image_name}
+                />
+              ) : (
+                <Image
+                  width={1200}
+                  height={667}
+                  className={"hover:scale-110 w-full transition-all"}
+                  src={login}
+                  alt={"event"}
+                />
+              )}
             </div>
-            {imageList
-              .reverse()
-              .slice(0, -1)
-              .map(({ image_id, image_url, image_name }) => {
-                return (
-                  <div key={image_id}>
-                    <Image
-                      className={
-                        "bg-[#eaeaea] rounded-[1rem] hover:scale-110 transition-all w-[180px]"
-                      }
-                      src={image_url}
-                      width={1200}
-                      height={100}
-                      alt={image_name}
-                    />
-                  </div>
-                );
-              })}
+            {imageList.length > 0 &&
+              imageList
+                .reverse()
+                .slice(0, -1)
+                .map(({ image_id, image_url, image_name }) => {
+                  return (
+                    <div key={image_id}>
+                      <Image
+                        className={
+                          "bg-[#eaeaea] rounded-[1rem] hover:scale-110 transition-all w-[180px]"
+                        }
+                        src={image_url}
+                        width={1200}
+                        height={100}
+                        alt={image_name}
+                      />
+                    </div>
+                  );
+                })}
           </div>
           <div className={"flex-1 flex flex-col gap-4"}>
             <span className={"text-sm text-[#2a2a2a]"}>
