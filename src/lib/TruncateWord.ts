@@ -1,13 +1,10 @@
-export default function truncateWords(str: string, maxWords = 15) {
-  // Split the string into words
-  const words = str.split(" ");
-
-  // Check if the number of words is greater than maxWords
-  if (words.length > maxWords) {
-    // Truncate the words array to the first maxWords elements and join them back into a string
-    return words.slice(0, maxWords).join(" ") + "...";
+export default function truncateWords(str: string, maxChars = 80) {
+  // Check if the string length is greater than maxChars
+  if (str.length > maxChars) {
+    // Truncate the string to the first maxChars characters and add "..." to the end
+    return str.slice(0, maxChars) + "...";
   }
 
-  // If the string has fewer words than maxWords, return it as is
+  // If the string has fewer characters than maxChars, return it as is
   return str;
 }

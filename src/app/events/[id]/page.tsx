@@ -27,7 +27,7 @@ async function Event({ params }: { params: { id: string } }) {
       <section className={"py-20  px-8 lg:px-0 max-w-[1086px] mx-auto"}>
         <div
           className={
-            "hidden lg:flex items-center divide-x-2  py-[1.2rem] text-sm text-[#9d9d9d]"
+            "hidden lg:flex items-center divide-x-2  py-[1.2rem] text-sm text-[#9d9d9d] mb-12"
           }
         >
           <Link href={"/events"} className={"px-[1rem]"}>

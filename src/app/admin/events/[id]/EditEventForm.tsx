@@ -414,7 +414,7 @@ function CreateEventForm({
               <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
                 <Card className="overflow-hidden">
                   <CardHeader>
-                    <CardTitle>Images de catégories</CardTitle>
+                    <CardTitle>Images de l&apos;Evénement</CardTitle>
                     <CardDescription>
                       Chaque image reflète l&apos;ambiance et l&apos;énergie de
                       vos événements.

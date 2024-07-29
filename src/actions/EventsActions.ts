@@ -26,9 +26,13 @@ export async function AddEvents(data: TAddEventSchema) {
         normal_price: data.normal_price,
         vip_price: data.vip_price,
         vip_ticket_amount: data.vip_ticket_amount,
+        status: data.status,
       })
       .returning({ event_id: events.event_id });
     revalidatePath("/admin/events");
+    revalidatePath("/");
+    revalidatePath("/events");
+    revalidatePath(`/events/${newEvent[0].event_id}`);
     return JSON.stringify(newEvent[0].event_id);
   }
 }
@@ -50,10 +54,16 @@ export async function UpdateEvent(data: TAddEventSchema, event_id: string) {
     })
     .where(eq(events.event_id, event_id));
   revalidatePath(`/admin/events/${event_id}`);
+  revalidatePath("/admin/events");
+  revalidatePath("/");
+  revalidatePath("/events");
+  revalidatePath(`/events/${event_id}`);
 }
 
 export async function DeleteEvent(event_id: string) {
   await database.delete(events).where(eq(events.event_id, event_id));
   await database.delete(images).where(eq(images.field_id, event_id));
   revalidatePath("/admin/events");
+  revalidatePath("/");
+  revalidatePath("/events");
 }

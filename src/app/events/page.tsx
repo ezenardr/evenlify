@@ -42,7 +42,7 @@ async function Events() {
             </select>
           </div>
         </div>
-        <ul className={"grid w-full  gap-8 lg:gap-0 lg:grid-cols-3"}>
+        <ul className={"grid w-full  gap-8 lg:gap-0 lg:gap-y-8 lg:grid-cols-3"}>
           {eventsList.map(({ title, description, date, event_id }) => {
             return (
               <li key={event_id}>

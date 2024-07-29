@@ -5,6 +5,7 @@ import { images } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import { Link } from "next-view-transitions";
 import truncateWords from "@/lib/TruncateWord";
+import login from "@/assets/images/login.webp";
 
 async function EventSimpleCard({
   title,
@@ -43,13 +44,25 @@ async function EventSimpleCard({
         "bg-white rounded-[12px] overflow-hidden w-full lg:w-[343px] shadow-lg"
       }
     >
-      <Image
-        src={imagesList[0].image_url}
-        alt={title}
-        className={"w-full"}
-        width={150}
-        height={150}
-      />
+      <div className={"h-[229px]"}>
+        {imagesList.length > 0 ? (
+          <Image
+            src={imagesList[0].image_url}
+            alt={title}
+            className={"w-full h-full"}
+            width={150}
+            height={150}
+          />
+        ) : (
+          <Image
+            src={login}
+            alt={title}
+            className={"w-full h-full"}
+            width={150}
+            height={150}
+          />
+        )}
+      </div>
       <div className={"flex gap-4 px-6 pt-4 pb-6"}>
         <div className={"flex flex-col items-center"}>
           <span className={"text-[#3D37F1] text-[12px] font-bold"}>
@@ -58,7 +71,9 @@ async function EventSimpleCard({
           <span className={"text-black text-[29px] font-bold"}>{day}</span>
         </div>
         <Link href={`/events/${event_id}`} className={"flex flex-col gap-2"}>
-          <h4 className={"text-[16px] font-bold text-black"}>{title}</h4>
+          <h4 className={"text-[16px] font-bold text-black"}>
+            {truncateWords(title, 25)}
+          </h4>
           <p className={"text-[#6a6a6a] text-[14px]"}>
             {truncateWords(description)}
           </p>

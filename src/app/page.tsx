@@ -5,34 +5,9 @@ import HeroSection from "@/components/HeroSection";
 import EventSimpleCard from "@/components/EventSimpleCard";
 import { database } from "@/database/databaseConnection";
 import { events } from "@/database/schema";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
-  // const events = [
-  //   {
-  //     image: Event,
-  //     title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-  //     description:
-  //       "We’ll get you directly seated and inside for you to enjoy the show.",
-  //     day: "14",
-  //     month: "APR",
-  //   },
-  //   {
-  //     image: Event,
-  //     title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-  //     description:
-  //       "We’ll get you directly seated and inside for you to enjoy the show.",
-  //     day: "14",
-  //     month: "APR",
-  //   },
-  //   {
-  //     image: Event,
-  //     title: "Wonder Girls 2010 Wonder Girls World Tour San Francisco",
-  //     description:
-  //       "We’ll get you directly seated and inside for you to enjoy the show.",
-  //     day: "14",
-  //     month: "APR",
-  //   },
-  // ];
   const eventsList = await database.select().from(events);
   return (
     <main className={"max-w-[1440px] mx-auto"}>
@@ -73,7 +48,7 @@ export default async function Home() {
             </select>
           </div>
         </div>
-        <ul className={"grid w-full  gap-8 lg:gap-0 lg:grid-cols-3"}>
+        <ul className={"grid w-full  gap-8 lg:gap-0 lg:gap-y-8 lg:grid-cols-3"}>
           {eventsList.map(({ title, description, date, event_id }, index) => {
             return (
               <li key={index}>
@@ -100,7 +75,7 @@ export default async function Home() {
       {/*  create events*/}
       <section
         className={
-          "flex flex-col px-8 lg:px-0 lg:flex-row items-center justify-center bg-[#EEE1FF]"
+          "flex flex-col px-8 lg:px-0 py-12 lg:py-0 lg:flex-row items-center justify-center bg-[#EEE1FF]"
         }
       >
         <div>
@@ -111,7 +86,8 @@ export default async function Home() {
             Poster vos Evénements
           </h2>
           <p className={"text-[18px] text-[#272727] pb-6"}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
+            Notre plateforme intuitive vous permet de créer et de promouvoir
+            facilement vos concerts, conférences, ateliers, et bien plus encore
           </p>
           <Link
             href={"/user/events"}
@@ -121,6 +97,7 @@ export default async function Home() {
           </Link>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }
