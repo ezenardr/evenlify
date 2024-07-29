@@ -111,13 +111,23 @@ async function AdminEvents() {
                       return (
                         <TableRow key={event_id}>
                           <TableCell className="hidden sm:table-cell">
-                            <Image
-                              alt="Product image"
-                              className="aspect-square rounded-md object-cover"
-                              height="64"
-                              src={image[0].image_url ?? login}
-                              width="64"
-                            />
+                            {image.length > 0 ? (
+                              <Image
+                                alt="Product image"
+                                className="aspect-square rounded-md object-cover"
+                                height="64"
+                                src={image[0].image_url}
+                                width="64"
+                              />
+                            ) : (
+                              <Image
+                                alt="Product image"
+                                className="aspect-square rounded-md object-cover"
+                                height="64"
+                                src={login}
+                                width="64"
+                              />
+                            )}
                           </TableCell>
                           <TableCell className="font-medium">{title}</TableCell>
                           <TableCell className="hidden md:table-cell">
